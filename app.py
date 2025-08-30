@@ -9,8 +9,11 @@ import re
 from PyPDF2 import PdfReader
 
 # Load SpaCy model
-nlp = spacy.load("en_core_web_sm")
-
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    nlp = spacy.load("en_core_web_sm")
 # Function: Clean text
 def clean_text(text):
     text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
